@@ -1,13 +1,7 @@
 services:
   - type: web
     name: imgtodesmos-backend
-    env: python
+    env: docker
     region: oregon
-    rootDir: backend
-    buildCommand: "chmod +x render-build.sh && ./render-build.sh"
-    startCommand: "gunicorn app:app"
-    envVars:
-      - key: PYTHON_VERSION
-        value: 3.11.0
-      - key: PORT
-        value: 5000
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
