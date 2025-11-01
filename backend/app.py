@@ -43,10 +43,19 @@ def edge_detection(image_path, output_path):
 def bitmap_to_svg(bitmap_path, svg_path):
     """Convert bitmap to SVG using potrace"""
     try:
-        subprocess.run(['potrace', bitmap_path, '-s', '-o', svg_path], check=True)
+        # Check if potrace exists
+        potrace_check = subprocess.run(['which', 'potrace'], capture_output=True, text=True)
+        print(f"Potrace location: {potrace_check.stdout}")
+
+        # Run potrace
+        result = subprocess.run(['potrace', bitmap_path, '-s', '-o', svg_path],
+                              capture_output=True, text=True, check=True)
+        print(f"Potrace output: {result.stdout}")
         return svg_path
+    except FileNotFoundError as e:
+        raise Exception(f"Potrace not found. Error: {e}")
     except subprocess.CalledProcessError as e:
-        raise Exception(f"Potrace conversion failed: {e}")
+        raise Exception(f"Potrace conversion failed: {e.stderr}")
 
 def svg_to_desmos(svg_path):
     """Convert SVG paths to Desmos mathematical expressions"""
@@ -142,7 +151,20 @@ def process_image():
 @app.route('/api/health', methods=['GET'])
 def health():
     """Health check endpoint"""
-    return jsonify({'status': 'ok'})
+    # Check if potrace is available
+    try:
+        result = subprocess.run(['potrace', '--version'], capture_output=True, text=True)
+        potrace_available = True
+        potrace_version = result.stdout.strip()
+    except FileNotFoundError:
+        potrace_available = False
+        potrace_version = "Not installed"
+
+    return jsonify({
+        'status': 'ok',
+        'potrace_available': potrace_available,
+        'potrace_version': potrace_version
+    })
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
