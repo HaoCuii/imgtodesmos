@@ -1,7 +1,0 @@
-services:
-  - type: web
-    name: imgtodesmos-backend
-    env: docker
-    region: oregon
-    dockerfilePath: ./backend/Dockerfile
-    dockerContext: ./backend
