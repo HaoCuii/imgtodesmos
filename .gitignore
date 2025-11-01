@@ -28,6 +28,10 @@ backend/output/
 # Environment
 .env
 .env.local
+.env.production
+backend/.env
+frontend/.env
+frontend/.env.production
 
 # IDE
 .vscode/
