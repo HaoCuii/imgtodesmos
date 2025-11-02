@@ -14,6 +14,7 @@ export default function ImageUploader({
 }: ImageUploaderProps) {
   const [preview, setPreview] = useState<string | null>(null)
   const [isDragging, setIsDragging] = useState(false)
+  const [selectedFile, setSelectedFile] = useState<File | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   const handleFileSelect = (file: File) => {
@@ -22,6 +23,7 @@ export default function ImageUploader({
       return
     }
 
+    setSelectedFile(file)
     const reader = new FileReader()
     reader.onloadend = () => {
       setPreview(reader.result as string)
@@ -56,13 +58,13 @@ export default function ImageUploader({
   }
 
   const handleProcess = async () => {
-    if (!fileInputRef.current?.files?.[0]) {
+    if (!selectedFile) {
       onError('Please select an image first')
       return
     }
 
     const formData = new FormData()
-    formData.append('image', fileInputRef.current.files[0])
+    formData.append('image', selectedFile)
 
     onProcessingStart()
 
