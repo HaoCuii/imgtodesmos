@@ -1,14 +1,14 @@
 ### Frontend
-- React 18 with TypeScript
-- Vite (build tool)
-- Tailwind CSS (styling)
-- Axios (HTTP client)
+- React with TypeScript
+- Vite
+- Tailwind CSS
+- Axios
 
 ### Backend
-- Flask (Python web framework)
-- OpenCV (edge detection)
-- Potrace (bitmap to vector conversion)
-- svgpathtools (SVG parsing)
+- Flask
+- OpenCV 
+- Potrace 
+- svgpathtools 
 
 ## How It Works
 
